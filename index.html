@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="theme-color" content="#F7F4EE" />
+    <meta
+      name="description"
+      content="Cek identitas nomor telepon Indonesia dengan cepat dan aman. Koneka menjaga privasi lewat arsitektur zero-trust—tanpa kunci enkripsi di perangkat, tanpa iklan, dan tanpa pelacak."
+    />
+    <title>Koneka — Buku Kenalan Bersama Zero-Trust</title>
+    <style>
+      :root {
+        --paper: #F7F4EE;
+        --surface: #FFFDF9;
+        --ink: #171A17;
+        --muted: #6D7268;
+        --line: #E1DACE;
+        --forest: #1F4A3A;
+        --forest-hover: #2C6A53;
+        --terra: #C64B2B;
+        --terra-soft: #F8E9E3;
+        --ok: #2F7D5B;
+        --ok-soft: #E5F2EC;
+        --font-serif: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+        --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+        --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+        --radius-sm: 10px;
+        --radius-md: 16px;
+        --radius-lg: 22px;
+        --shadow-card: 0 1px 2px rgba(23, 26, 23, 0.04), 0 8px 24px rgba(31, 74, 58, 0.05);
+      }
+
+      *, *::before, *::after {
+        box-sizing: border-box;
+      }
+
+      html {
+        scroll-behavior: smooth;
+        overflow-x: clip;
+      }
+
+      body {
+        margin: 0;
+        background: var(--paper);
+        color: var(--ink);
+        font-family: var(--font-sans);
+        font-size: 16px;
+        line-height: 1.6;
+        overflow-x: clip;
+        -webkit-font-smoothing: antialiased;
+        -webkit-tap-highlight-color: transparent;
+      }
+
+      a {
+        color: inherit;
+        text-decoration: none;
+      }
+
+      .container {
+        width: 100%;
+        max-width: 1080px;
+        margin: 0 auto;
+        padding: 0 16px;
+      }
+
+      .masthead {
+        position: sticky;
+        top: 0;
+        z-index: 50;
+        background: rgba(247, 244, 238, 0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--line);
+      }
+
+      .masthead-inner {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 60px;
+        gap: 12px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        font-family: var(--font-serif);
+        font-size: 1.35rem;
+        font-weight: 700;
+        letter-spacing: -0.02em;
+      }
+
+      .brand svg {
+        width: 34px;
+        height: 34px;
+        flex-shrink: 0;
+      }
+
+      .nav-links {
+        display: none;
+        align-items: center;
+        gap: 24px;
+        font-size: 0.92rem;
+        color: var(--muted);
+        font-weight: 500;
+      }
+
+      .nav-links a:hover {
+        color: var(--ink);
+      }
+
+      .btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+        min-height: 46px;
+        padding: 12px 20px;
+        border-radius: var(--radius-sm);
+        font-weight: 600;
+        font-size: 0.95rem;
+        border: 1px solid transparent;
+        cursor: pointer;
+        transition: background-color 0.18s ease, border-color 0.18s ease, transform 0.12s ease;
+      }
+
+      .btn:active {
+        transform: translateY(1px);
+      }
+
+      .btn-primary {
+        background: var(--forest);
+        color: #FFFDF9;
+      }
+
+      .btn-primary:hover {
+        background: var(--forest-hover);
+      }
+
+      .btn-outline {
+        background: var(--surface);
+        color: var(--ink);
+        border-color: var(--line);
+      }
+
+      .btn-outline:hover {
+        border-color: var(--forest);
+        color: var(--forest);
+      }
+
+      .btn-sm {
+        min-height: 38px;
+        padding: 8px 14px;
+        font-size: 0.875rem;
+      }
+
+      .hero {
+        padding: 28px 0 36px;
+      }
+
+      .hero-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 24px;
+        align-items: center;
+      }
+
+      .eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        padding: 5px 12px;
+        border-radius: 999px;
+        background: var(--ok-soft);
+        color: var(--ok);
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 600;
+        letter-spacing: 0.02em;
+      }
+
+      .hero-title {
+        font-family: var(--font-serif);
+        font-size: clamp(2rem, 4.4vw, 3.1rem);
+        line-height: 1.15;
+        letter-spacing: -0.025em;
+        margin: 16px 0 18px;
+        font-weight: 700;
+      }
+
+      .hero-desc {
+        font-size: 1.06rem;
+        color: var(--muted);
+        margin: 0 0 26px;
+        max-width: 58ch;
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+        margin-bottom: 20px;
+      }
+
+      .hero-actions .btn {
+        width: 100%;
+      }
+
+      .meta-strip {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px 14px;
+        padding-top: 16px;
+        border-top: 1px solid var(--line);
+        font-size: 0.82rem;
+        color: var(--muted);
+      }
+
+      .meta-item strong {
+        color: var(--ink);
+        font-family: var(--font-mono);
+        font-weight: 600;
+      }
+
+      .preview-card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 18px;
+        box-shadow: var(--shadow-card);
+        min-width: 0;
+      }
+
+      .preview-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding-bottom: 12px;
+        border-bottom: 1px solid var(--line);
+        margin-bottom: 14px;
+      }
+
+      .preview-title {
+        font-family: var(--font-serif);
+        font-size: 1.05rem;
+        font-weight: 700;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        padding: 4px 10px;
+        border-radius: 999px;
+        font-family: var(--font-mono);
+        font-size: 0.74rem;
+        font-weight: 600;
+      }
+
+      .pill-ok {
+        background: var(--ok-soft);
+        color: var(--ok);
+      }
+
+      .pill-terra {
+        background: var(--terra-soft);
+        color: var(--terra);
+      }
+
+      .mock-search {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-sm);
+        padding: 11px 12px;
+        font-family: var(--font-mono);
+        font-size: 0.88rem;
+        margin-bottom: 12px;
+      }
+
+      .mock-ledger-item {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 8px;
+        flex-wrap: wrap;
+        padding: 10px 0;
+        border-bottom: 1px dashed var(--line);
+        font-size: 0.9rem;
+      }
+
+      .mock-ledger-item:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .mock-count {
+        font-family: var(--font-mono);
+        font-size: 0.76rem;
+        color: var(--muted);
+      }
+
+      .section {
+        padding: 40px 0;
+        border-top: 1px solid var(--line);
+      }
+
+      .section-head {
+        max-width: 640px;
+        margin-bottom: 24px;
+      }
+
+      .section-kicker {
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--forest);
+        font-weight: 700;
+        margin: 0 0 8px;
+      }
+
+      .section-title {
+        font-family: var(--font-serif);
+        font-size: clamp(1.55rem, 3vw, 2.15rem);
+        line-height: 1.2;
+        letter-spacing: -0.02em;
+        margin: 0 0 10px;
+      }
+
+      .section-sub {
+        color: var(--muted);
+        margin: 0;
+      }
+
+      .cards-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr));
+        gap: 14px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 18px;
+        box-shadow: var(--shadow-card);
+        min-width: 0;
+      }
+
+      .card-num {
+        display: inline-block;
+        font-family: var(--font-mono);
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: var(--forest);
+        background: var(--ok-soft);
+        padding: 3px 9px;
+        border-radius: 999px;
+        margin-bottom: 12px;
+      }
+
+      .card h3 {
+        font-family: var(--font-serif);
+        font-size: 1.12rem;
+        margin: 0 0 8px;
+        line-height: 1.3;
+      }
+
+      .card p {
+        margin: 0;
+        font-size: 0.93rem;
+        color: var(--muted);
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+        gap: 14px;
+      }
+
+      .privacy-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+      }
+
+      .privacy-list {
+        list-style: none;
+        padding: 0;
+        margin: 16px 0 0;
+      }
+
+      .privacy-list li {
+        padding: 12px 0;
+        border-bottom: 1px solid var(--line);
+      }
+
+      .privacy-list li:last-child {
+        border-bottom: none;
+        padding-bottom: 0;
+      }
+
+      .privacy-list strong {
+        display: block;
+        font-size: 0.96rem;
+        margin-bottom: 2px;
+      }
+
+      .privacy-list span {
+        font-size: 0.9rem;
+        color: var(--muted);
+      }
+
+      .faq-list {
+        display: grid;
+        gap: 12px;
+      }
+
+      details.faq-item {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-md);
+        padding: 16px 20px;
+      }
+
+      details.faq-item summary {
+        cursor: pointer;
+        font-weight: 600;
+        font-size: 0.98rem;
+        list-style: none;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      details.faq-item summary::-webkit-details-marker {
+        display: none;
+      }
+
+      details.faq-item summary::after {
+        content: "+";
+        font-family: var(--font-mono);
+        font-size: 1.15rem;
+        color: var(--forest);
+      }
+
+      details.faq-item[open] summary::after {
+        content: "−";
+      }
+
+      details.faq-item p {
+        margin: 12px 0 0;
+        font-size: 0.93rem;
+        color: var(--muted);
+      }
+
+      .install-box {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius-lg);
+        padding: 20px;
+        display: grid;
+        gap: 20px;
+        align-items: center;
+        box-shadow: var(--shadow-card);
+      }
+
+      .install-steps {
+        margin: 12px 0 0;
+        padding-left: 20px;
+        color: var(--muted);
+        font-size: 0.94rem;
+      }
+
+      .install-steps li + li {
+        margin-top: 6px;
+      }
+
+      .inline-code {
+        font-family: var(--font-mono);
+        font-size: 0.85em;
+        background: var(--paper);
+        border: 1px solid var(--line);
+        padding: 1px 6px;
+        border-radius: 6px;
+        color: var(--ink);
+        overflow-wrap: anywhere;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 28px 0 calc(96px + env(safe-area-inset-bottom, 0px));
+        font-size: 0.88rem;
+        color: var(--muted);
+      }
+
+      .footer-inner {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+      }
+
+      .mobile-sticky-bar {
+        position: fixed;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        z-index: 60;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 12px;
+        padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+        background: rgba(255, 253, 249, 0.95);
+        backdrop-filter: blur(12px);
+        border-top: 1px solid var(--line);
+      }
+
+      .mobile-sticky-meta {
+        display: flex;
+        flex-direction: column;
+        min-width: 0;
+      }
+
+      .mobile-sticky-meta strong {
+        font-size: 0.9rem;
+        line-height: 1.2;
+      }
+
+      .mobile-sticky-meta span {
+        font-size: 0.76rem;
+        color: var(--muted);
+        font-family: var(--font-mono);
+      }
+
+      @media (min-width: 520px) {
+        .hero-actions {
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 12px;
+          margin-bottom: 24px;
+        }
+
+        .hero-actions .btn {
+          width: auto;
+        }
+      }
+
+      @media (min-width: 820px) {
+        .container {
+          padding: 0 20px;
+        }
+
+        .masthead-inner {
+          height: 68px;
+        }
+
+        .nav-links {
+          display: inline-flex;
+        }
+
+        .hero {
+          padding: 76px 0 64px;
+        }
+
+        .hero-grid {
+          grid-template-columns: 1.15fr 0.85fr;
+          gap: 48px;
+        }
+
+        .meta-strip {
+          display: flex;
+          flex-wrap: wrap;
+          gap: 10px 20px;
+          font-size: 0.85rem;
+        }
+
+        .preview-card {
+          padding: 24px;
+        }
+
+        .section {
+          padding: 56px 0;
+        }
+
+        .card {
+          padding: 22px;
+        }
+
+        .privacy-grid {
+          grid-template-columns: 1fr 1fr;
+        }
+
+        .install-box {
+          grid-template-columns: 1.3fr 0.7fr;
+          padding: 28px;
+          gap: 24px;
+        }
+
+        footer {
+          padding: 28px 0 40px;
+        }
+
+        .mobile-sticky-bar {
+          display: none;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header class="masthead">
+      <div class="container masthead-inner">
+        <a href="#" class="brand" aria-label="Koneka">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+            <rect width="64" height="64" rx="16" fill="#1F4A3A" />
+            <path d="M18 17v30M18 33l14-14M23.5 27.5L35 47" stroke="#F7F4EE" stroke-width="4.2" stroke-linecap="round" stroke-linejoin="round" />
+            <circle cx="45" cy="44" r="5" fill="#C64B2B" />
+          </svg>
+          <span>Koneka</span>
+        </a>
+
+        <nav class="nav-links" aria-label="Navigasi Halaman">
+          <a href="#keunggulan">Keunggulan</a>
+          <a href="#cara-kerja">Cara Kerja</a>
+          <a href="#privasi">Privasi</a>
+          <a href="#faq">FAQ</a>
+        </nav>
+
+        <a href="./koneka-debug.apk" download class="btn btn-primary btn-sm">Unduh APK</a>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="container hero-grid">
+          <div>
+            <span class="eyebrow">Android APK · Zero-Trust · Tanpa Iklan</span>
+            <h1 class="hero-title">Kenali siapa yang menelepon, tanpa mengorbankan privasi.</h1>
+            <p class="hero-desc">
+              Koneka adalah buku kenalan bersama khusus nomor Indonesia (<code class="inline-code">08…</code> / <code class="inline-code">+62</code>). Nomor telepon diubah ke <strong>HMAC-SHA256</strong> dan nama dienkripsi <strong>AES-256-GCM</strong> di edge server—bukan di perangkat Anda.
+            </p>
+
+            <div class="hero-actions">
+              <a href="./koneka-debug.apk" download class="btn btn-primary">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                  <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                  <polyline points="7 10 12 15 17 10" />
+                  <line x1="12" y1="15" x2="12" y2="3" />
+                </svg>
+                Unduh Koneka APK
+              </a>
+              <a href="#privasi" class="btn btn-outline">Pelajari Cara Kerja &amp; Privasi</a>
+            </div>
+
+            <div class="meta-strip">
+              <div class="meta-item">Versi: <strong>1.0</strong></div>
+              <div class="meta-item">Platform: <strong>Android</strong></div>
+              <div class="meta-item">Ukuran: <strong>~4,85 MB</strong></div>
+              <div class="meta-item">ID Paket: <strong>id.koneka.app</strong></div>
+            </div>
+          </div>
+
+          <aside class="preview-card" aria-label="Pratinjau Koneka">
+            <div class="preview-header">
+              <span class="preview-title">Arsip Pencarian Nomor</span>
+              <span class="pill pill-ok">Zero-Trust</span>
+            </div>
+            <div class="mock-search">
+              <span>0812-3456-7890</span>
+              <span class="pill pill-ok">HMAC-SHA256</span>
+            </div>
+            <div>
+              <div class="mock-ledger-item">
+                <span>Budi Santoso</span>
+                <span class="mock-count">Terenkripsi AES-256-GCM</span>
+              </div>
+              <div class="mock-ledger-item">
+                <span>Pak Budi Kantor</span>
+                <span class="mock-count">Terenkripsi AES-256-GCM</span>
+              </div>
+              <div class="mock-ledger-item">
+                <span>Kurir Paket</span>
+                <span class="mock-count">Terenkripsi AES-256-GCM</span>
+              </div>
+            </div>
+          </aside>
+        </div>
+      </section>
+
+      <section id="keunggulan" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Keunggulan Utama</p>
+            <h2 class="section-title">Dirancang dengan prinsip privasi sejak baris kode pertama.</h2>
+            <p class="section-sub">Ringan, fokus pada nomor Indonesia, dan bebas pelacak komersial.</p>
+          </div>
+
+          <div class="cards-grid">
+            <article class="card">
+              <span class="card-num">01</span>
+              <h3>Arsitektur Zero-Trust</h3>
+              <p>Tidak ada kunci HMAC atau AES di dalam APK. Semua proses kriptografi berlangsung di Cloudflare Worker edge server.</p>
+            </article>
+            <article class="card">
+              <span class="card-num">02</span>
+              <h3>Nomor Asli Tidak Disimpan</h3>
+              <p>Nomor yang dinormalisasi langsung di-hash dengan HMAC-SHA256. Nomor plaintext hanya lewat memori sementara.</p>
+            </article>
+            <article class="card">
+              <span class="card-num">03</span>
+              <h3>Nama Terenkripsi AES-256-GCM</h3>
+              <p>Setiap variasi nama kontak (maksimal 60 karakter, hingga 12 variasi per nomor) dienkripsi dengan IV 12-byte acak.</p>
+            </article>
+            <article class="card">
+              <span class="card-num">04</span>
+              <h3>Tanpa Iklan &amp; Izin Berlebihan</h3>
+              <p>Tidak ada SDK iklan, GPS, foto, atau pelacak pihak ketiga. Izin tulis kontak (<code class="inline-code">WRITE_CONTACTS</code>) diblokir total.</p>
+            </article>
+            <article class="card">
+              <span class="card-num">05</span>
+              <h3>Kontrol Penuh di Tab Privasi</h3>
+              <p>Pantau status izin &amp; jumlah kontak tersimpan, hapus cache lokal, atau tarik seluruh kontribusi Anda kapan saja.</p>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <section id="cara-kerja" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Cara Kerja</p>
+            <h2 class="section-title">Dari instalasi hingga cek nomor dalam empat langkah.</h2>
+          </div>
+
+          <div class="steps-grid">
+            <div class="card">
+              <span class="card-num">Langkah 1</span>
+              <h3>Unduh &amp; Pasang APK</h3>
+              <p>Unduh file APK Koneka dan pasang langsung di perangkat Android Anda.</p>
+            </div>
+            <div class="card">
+              <span class="card-num">Langkah 2</span>
+              <h3>Berikan Izin Kontak</h3>
+              <p>Saat aplikasi dibuka, sistem Android langsung meminta izin baca kontak (<code class="inline-code">READ_CONTACTS</code>).</p>
+            </div>
+            <div class="card">
+              <span class="card-num">Langkah 3</span>
+              <h3>Setor Otomatis &amp; Cari</h3>
+              <p>Kontak bernomor Indonesia disetorkan terenkripsi dan akses pencarian nomor langsung terbuka.</p>
+            </div>
+            <div class="card">
+              <span class="card-num">Langkah 4</span>
+              <h3>Kelola di Tab Privasi</h3>
+              <p>Cek status penyimpanan atau tarik semua data kontribusi perangkat Anda kapan pun dibutuhkan.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="privasi" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Transparansi Privasi</p>
+            <h2 class="section-title">Jelas apa yang disimpan dan apa yang tidak pernah disentuh.</h2>
+          </div>
+
+          <div class="privacy-grid">
+            <div class="card">
+              <span class="pill pill-ok">Yang Disimpan di Arsip</span>
+              <ul class="privacy-list">
+                <li>
+                  <strong>ID Nomor HMAC-SHA256</strong>
+                  <span>Hash berkunci rahasia dari nomor Indonesia yang dinormalisasi (<code class="inline-code">08…</code>).</span>
+                </li>
+                <li>
+                  <strong>Nama Terenkripsi AES-256-GCM</strong>
+                  <span>Hanya teks nama yang disanitasi (1–60 karakter) dengan IV acak per entri.</span>
+                </li>
+                <li>
+                  <strong>ID Perangkat Anonim (UUID v4)</strong>
+                  <span>Disimpan aman di <em>Android EncryptedSharedPreferences</em> untuk menandai kontribusi perangkat.</span>
+                </li>
+              </ul>
+            </div>
+
+            <div class="card">
+              <span class="pill pill-terra">Yang Tidak Pernah Disimpan</span>
+              <ul class="privacy-list">
+                <li>
+                  <strong>Nomor Telepon Asli (Plaintext)</strong>
+                  <span>Server hanya memproses nomor di memori sementara sebelum menghasilkan HMAC ID.</span>
+                </li>
+                <li>
+                  <strong>Data Pribadi &amp; Pelacakan</strong>
+                  <span>Tidak ada email, foto, catatan kontak, lokasi GPS, riwayat panggilan, atau SDK iklan.</span>
+                </li>
+                <li>
+                  <strong>Kunci Enkripsi di Sisi Klien</strong>
+                  <span>File APK tidak pernah menyimpan kunci HMAC maupun AES.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" class="section">
+        <div class="container">
+          <div class="section-head">
+            <p class="section-kicker">Pertanyaan Umum</p>
+            <h2 class="section-title">Hal yang sering ditanyakan sebelum mengunduh.</h2>
+          </div>
+
+          <div class="faq-list">
+            <details class="faq-item">
+              <summary>Apakah nomor telepon saya dan kontak saya disimpan dalam bentuk asli?</summary>
+              <p>Tidak. Nomor telepon dinormalisasi lalu diubah menjadi hash HMAC-SHA256 di server. Nama kontak dienkripsi dengan AES-256-GCM sebelum disimpan.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Mengapa Koneka meminta izin baca kontak (READ_CONTACTS)?</summary>
+              <p>Koneka memakai model buku kenalan bersama. Begitu izin baca kontak diberikan, kontak bernomor Indonesia disetorkan secara terenkripsi dan fitur pencarian langsung terbuka.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Bisakah Koneka mengubah atau menghapus kontak di HP saya?</summary>
+              <p>Tidak. Koneka hanya meminta izin baca (<code class="inline-code">READ_CONTACTS</code>) dan secara eksplisit menghapus izin tulis (<code class="inline-code">WRITE_CONTACTS</code>) di manifest Android.</p>
+            </details>
+            <details class="faq-item">
+              <summary>Bagaimana cara menghapus data kontribusi saya dari server?</summary>
+              <p>Buka tab <strong>Privasi</strong> di aplikasi lalu ketuk <strong>Tarik Semua Kontribusi</strong>. Server akan menghapus seluruh entri nama yang terhubung dengan ID perangkat Anda.</p>
+            </details>
+          </div>
+        </div>
+      </section>
+
+      <section id="unduh" class="section">
+        <div class="container">
+          <div class="install-box">
+            <div>
+              <p class="section-kicker">Instalasi Android</p>
+              <h2 class="section-title">Siap mencoba Koneka di ponsel Anda?</h2>
+              <ol class="install-steps">
+                <li>Ketuk tombol <strong>Unduh Koneka APK</strong> di samping.</li>
+                <li>Buka file <code class="inline-code">koneka-debug.apk</code> dari notifikasi atau <em>File Manager</em>.</li>
+                <li>Jika diminta Android, aktifkan <strong>Izinkan dari sumber ini</strong> untuk browser Anda.</li>
+                <li>Ketuk <strong>Instal</strong>, buka Koneka, lalu berikan izin Kontak.</li>
+              </ol>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 10px;">
+              <a href="./koneka-debug.apk" download class="btn btn-primary">Unduh Koneka APK (v1.0)</a>
+              <span style="font-size: 0.84rem; color: var(--muted); text-align: center;">
+                Android · ~4,85 MB · <code class="inline-code">id.koneka.app</code>
+              </span>
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <div class="container footer-inner">
+        <span><strong>Koneka</strong> — Buku kenalan bersama berarsitektur zero-trust.</span>
+        <span>Hanya membutuhkan izin Internet, Baca Kontak, &amp; Getar.</span>
+      </div>
+    </footer>
+
+    <div class="mobile-sticky-bar">
+      <div class="mobile-sticky-meta">
+        <strong>Koneka APK v1.0</strong>
+        <span>Android · ~4,85 MB</span>
+      </div>
+      <a href="./koneka-debug.apk" download class="btn btn-primary btn-sm">Unduh APK</a>
+    </div>
+  </body>
+</html>
